@@ -11,13 +11,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * 用于PC端到App端的Socket连接。
+ * 用于PC端到App端的Socket连接，以及
  * 实现逻辑：
  * 1、初始化对象，指定端口号，调用waitConnect()方法等待连接；
  * 2、App端点击建立连接；
  * 3、App端选择要发送的文件类型，发送握手包ConnectHand到PC端；
  * 4、App端发送所有要发送的文件Package给PC端。
- * 注：一切外部类不负责异常处理和多线程操作。调用方（主程序）需要捕获异常和处理多线程并发。
+ * 注：一切外部类不负责异常处理和多线程操作。捕获异常和处理多线程并发需要由调用方（主程序）实现。
  */
 public class ConnectApp {
     private final ServerSocket serverSocket;
