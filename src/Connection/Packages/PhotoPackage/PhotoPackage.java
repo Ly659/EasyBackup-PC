@@ -57,11 +57,12 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
     }
 
     /**
-     * 获取文件名。
+     * 获取文件名（包含后缀名）。
      *
      * @return 文件名
      */
-    public String getFileName() {
+    @Override
+    public String toString() {
         return filePath.substring(filePath.lastIndexOf("\\"));
     }
 
@@ -100,7 +101,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      *
      * @return 文件大小（单位：MB）
      */
-    @Override
     public int fileSize() {
         return fileSize;
     }
