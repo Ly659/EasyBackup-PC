@@ -99,6 +99,7 @@ public class ConnectApp {
             // 3、保存更改到文件
             Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\HandInfo.xml"));
             xmlFile.write(writer);
+            writer.close();         // 关闭文件流。非常重要，否则文件为空
         }
     }
 
