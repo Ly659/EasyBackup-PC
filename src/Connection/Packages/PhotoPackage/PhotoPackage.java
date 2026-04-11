@@ -32,20 +32,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
     public PhotoPackage {
     }
 
-    // 暂时不用了。发送原图和发送其他文件一样，直接使用文件流了。
-//    /**
-//     * 初始化封装，仅需指定图片数据。
-//     * 此构造用于存储和传输原图。
-//     * @param photoData 图片数据
-//     */
-//    public PhotoPackage(byte[] photoData) {
-//        photoSize = null;
-//        photoType = null;
-//        fileSize = -1;
-//        this.photoData = photoData;
-//    }
-
-
     /**
      * 获取图片的文件路径。
      *
