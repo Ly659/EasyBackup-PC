@@ -1,5 +1,6 @@
 package Connection;
 
+import Connection.Packages.Command.SendPackageEnded;
 import Connection.Packages.ConnectionHand;
 import Connection.Packages.PhotoPackage.PhotoPackage;
 import Connection.Packages.TypeInfo;
@@ -53,6 +54,12 @@ public class ConnectApp {
         readConnectionHand();
         // 握手成功后，读取真正的文件数据
         readPackages();
+
+        // 最后关闭所有socket
+        objInputStream.close();
+        inputStream.close();
+        socket.close();
+        serverSocket.close();
     }
 
     /**
@@ -64,7 +71,7 @@ public class ConnectApp {
      */
     private void readConnectionHand() throws IOException, ClassNotFoundException {
         // 读取App端发送的ConectionHand握手封装
-        objInputStream = new NewObjInputStream(inputStream, "MyApp.XeonLight.EasyBackup", "ConnectApp");
+        objInputStream = new NewObjInputStream(inputStream, "Connection", "Connection");
         Object obj = objInputStream.readObject();
 
         // 读取握手信息，写入XML
@@ -112,6 +119,11 @@ public class ConnectApp {
         while (true) {
             // 读取App发送的文件封装
             Object obj = objInputStream.readObject();
+            // 如果此文件封装是Command，则表示App所有文件都已经发送完毕，可以退出循环
+            if (obj instanceof SendPackageEnded) {
+                return;
+            }
+
             // 初始化xml文件
             Document xmlFile = DocumentHelper.createDocument();
             Element root = xmlFile.addElement("FileInfo");
