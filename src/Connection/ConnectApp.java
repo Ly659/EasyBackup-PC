@@ -131,11 +131,11 @@ public class ConnectApp {
             // 判断文件类型，执行对应操作
             if (obj instanceof PhotoPackage photoPackage) {
                 // 唯一的文件名标志
-                String fileName = System.currentTimeMillis() + "_" + Integer.toHexString(obj.hashCode());
+                String fileFlag = System.currentTimeMillis() + "_" + Integer.toHexString(obj.hashCode());
 
                 // /////////////// 写入文件本体 /////////////// //
                 // 指定唯一的临时文件名（时间戳_hash值）
-                File thumbFile = new File("src\\Connection\\Temp\\" + fileName);
+                File thumbFile = new File("src\\Connection\\Temp\\" + fileFlag);
 
                 if (thumbFile.isFile()) if (thumbFile.delete()) System.out.println("已删除冲突的临时文件");       // 若文件已存在，则先删除已存在的文件
                 OutputStream thumbOutput = new FileOutputStream(thumbFile);
@@ -161,7 +161,7 @@ public class ConnectApp {
                 photoHeight.setText(String.valueOf(photoPackage.photoSize().height()));
 
                 // 保存XML文件
-                Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\" + fileName + ".xml"));
+                Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\" + fileFlag + ".xml"));
                 xmlFile.write(writer);
                 writer.close();
 
