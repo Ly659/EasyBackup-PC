@@ -1,7 +1,7 @@
 package Connection.Packages.PhotoPackage;
 
 /**
- * 用于封装图片尺寸。此对象一经创建，其图片尺寸数据就无法再修改。
+ * 此类用于封装图片尺寸。此对象一经创建，其图片尺寸数据就无法再修改。
  */
 public record PhotoSize(int width, int height) {
     /**
