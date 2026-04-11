@@ -116,27 +116,37 @@ public class ConnectApp {
             Element root = xmlFile.addElement("FileInfo");
 
             // 判断文件类型，执行对应操作
-            if (obj instanceof PhotoPackage) {
+            if (obj instanceof PhotoPackage photoPackage) {
+
+                // /////////////// 写入文件本体 /////////////// //
+                File thumbFile = new File("src\\Connection\\Temp\\" + Integer.toHexString(obj.hashCode()) + ".jpg");
+                if (thumbFile.isFile()) if (thumbFile.delete()) System.out.println("已删除冲突的临时文件");       // 若文件已存在，则先删除已存在的文件
+                OutputStream thumbOutput = new FileOutputStream(thumbFile);
+                thumbOutput.write(photoPackage.photoData());
+                thumbOutput.close();
+
+                // /////////////// 写入XML文件 /////////////// //
                 // 写入文件信息
                 Element fileName = root.addElement("name");
-                fileName.setText(((PhotoPackage) obj).toString());               // 文件名
+                fileName.setText(photoPackage.toString());               // 文件名
                 Element filePath = root.addElement("path");
-                filePath.setText(((PhotoPackage) obj).filePath());                  // 源文件路径
+                filePath.setText(photoPackage.filePath());                  // 源文件路径
                 Element fileSize = root.addElement("size");
-                fileSize.setText(String.valueOf(((PhotoPackage) obj).fileSize()));  // 文件大小（MB）
+                fileSize.setText(String.valueOf(photoPackage.fileSize()));  // 文件大小（MB）
                 Element fileType = root.addElement("type");
-                fileType.setText(((PhotoPackage) obj).photoType().toString());      // 文件类型（后缀名）
+                fileType.setText(photoPackage.photoType().toString());      // 文件类型（后缀名）
 
                 // 图片内部信息（分辨率等）
                 Element photo = root.addElement("photo");
                 Element photoWidth = photo.addElement("width");
-                photoWidth.setText(String.valueOf(((PhotoPackage) obj).photoSize().width()));
+                photoWidth.setText(String.valueOf(photoPackage.photoSize().width()));
                 Element photoHeight = photo.addElement("height");
-                photoHeight.setText(String.valueOf(((PhotoPackage) obj).photoSize().height()));
+                photoHeight.setText(String.valueOf(photoPackage.photoSize().height()));
 
                 // 保存XML文件
                 Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\" + obj + ".xml"));
                 xmlFile.write(writer);
+                writer.close();
 
             }   // 此处预留，以后添加更多文件类型
         }
