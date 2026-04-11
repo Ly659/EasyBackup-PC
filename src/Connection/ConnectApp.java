@@ -119,7 +119,7 @@ public class ConnectApp {
         while (true) {
             // 读取App发送的文件封装
             Object obj = objInputStream.readObject();
-            // 如果此文件封装是Command，则表示App所有文件都已经发送完毕，可以退出循环
+            // 如果此文件封装是传输结束标记SendPackageEnded，则表示App所有文件都已经发送完毕，可以退出循环
             if (obj instanceof SendPackageEnded) {
                 return;
             }
@@ -130,10 +130,12 @@ public class ConnectApp {
 
             // 判断文件类型，执行对应操作
             if (obj instanceof PhotoPackage photoPackage) {
+                // 唯一的文件名标志
+                String fileName = System.currentTimeMillis() + "_" + Integer.toHexString(obj.hashCode());
 
                 // /////////////// 写入文件本体 /////////////// //
                 // 指定唯一的临时文件名（时间戳_hash值）
-                File thumbFile = new File("src\\Connection\\Temp\\" + System.currentTimeMillis() + "_" + Integer.toHexString(obj.hashCode()));
+                File thumbFile = new File("src\\Connection\\Temp\\" + fileName);
 
                 if (thumbFile.isFile()) if (thumbFile.delete()) System.out.println("已删除冲突的临时文件");       // 若文件已存在，则先删除已存在的文件
                 OutputStream thumbOutput = new FileOutputStream(thumbFile);
@@ -159,7 +161,7 @@ public class ConnectApp {
                 photoHeight.setText(String.valueOf(photoPackage.photoSize().height()));
 
                 // 保存XML文件
-                Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\" + obj + ".xml"));
+                Writer writer = new OutputStreamWriter(new FileOutputStream("src\\Connection\\Temp\\" + fileName + ".xml"));
                 xmlFile.write(writer);
                 writer.close();
 
