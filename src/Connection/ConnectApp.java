@@ -120,7 +120,9 @@ public class ConnectApp {
             if (obj instanceof PhotoPackage photoPackage) {
 
                 // /////////////// 写入文件本体 /////////////// //
-                File thumbFile = new File("src\\Connection\\Temp\\" + Integer.toHexString(obj.hashCode()) + ".jpg");
+                // 指定唯一的临时文件名（时间戳_hash值）
+                File thumbFile = new File("src\\Connection\\Temp\\" + System.currentTimeMillis() + "_" + Integer.toHexString(obj.hashCode()));
+
                 if (thumbFile.isFile()) if (thumbFile.delete()) System.out.println("已删除冲突的临时文件");       // 若文件已存在，则先删除已存在的文件
                 OutputStream thumbOutput = new FileOutputStream(thumbFile);
                 thumbOutput.write(photoPackage.photoData());
