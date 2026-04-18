@@ -1,11 +1,9 @@
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 
 /**
  * 列表视图的父类。继承此类，可以实现一种文件类型的显示列表UI。
@@ -91,8 +89,72 @@ class UIListLayout {
 
 }
 
+/**
+ * EasyBackup软件主程序类，负责UI布局初始化、调用其他类。
+ */
 public class EasyBackupGUI {
-    void main() {
+    private final Display display;
+    private final Shell shell;
 
+    public EasyBackupGUI(String title, int[] size) {
+        // 初始化UI
+        display = new Display();
+        shell = new Shell(display);
+
+        // 配置UI
+        shell.setText(title);               // 设置窗口标题
+        shell.setSize(size[0], size[1]);    // 设置窗口大小
+
+        initUI();
+    }
+
+    /**
+     * 加载程序界面
+     */
+    private void initUI() {
+        // 设置布局方案（使用FormLayout排列UI组件）
+        shell.setLayout(new FormLayout());
+
+        // 欢迎文字
+        Label textInfo = new Label(shell, SWT.NONE | SWT.CENTER);
+        textInfo.setFont(new Font(display, "微软雅黑", 18, SWT.BOLD));
+        textInfo.setText("欢迎使用EasyBackup！");
+
+        FormData fdTextInfo = new FormData();
+        fdTextInfo.left = new FormAttachment(0, 120);
+        fdTextInfo.right = new FormAttachment(100, -120);
+        fdTextInfo.top = new FormAttachment(0, 80);
+        textInfo.setLayoutData(fdTextInfo);
+
+        // 操作按钮
+        Button buttonStart = new Button(shell, SWT.PUSH);
+        buttonStart.setText("开始连接手机");
+
+        FormData fdButtonStart = new FormData();
+        fdButtonStart.top = new FormAttachment(textInfo, 30, SWT.BOTTOM);
+        fdButtonStart.left = new FormAttachment(textInfo, 0, SWT.LEFT);
+        fdButtonStart.right = new FormAttachment(textInfo, 0, SWT.RIGHT);
+        buttonStart.setLayoutData(fdButtonStart);
+    }
+
+    /**
+     * 启动主程序并阻塞，直到程序退出。
+     */
+    public void run() {
+        shell.open();
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) display.sleep();
+        }
+        display.dispose();
+    }
+
+
+    static void main() {
+        // 创建并配置主程序的实例
+        EasyBackupGUI mainWindow = new EasyBackupGUI(
+                "EasyBackup - Internal test",
+                new int[] {1024, 768});
+
+        mainWindow.run();
     }
 }
