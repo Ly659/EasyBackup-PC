@@ -1,5 +1,6 @@
 package Connection.Packages.PhotoPackage;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -9,14 +10,16 @@ import java.io.Serializable;
  * 文件路径
  * 照片尺寸
  *
- * @param photoData 文件内容数据
- * @param filePath  存储图片信息 文件路径（\Storage\emulated\0\为根目录）
- * @param photoType 文件类型
- * @param fileSize  文件大小（单位：MB）
- * @param photoSize 图片尺寸
  */
-public record PhotoPackage(byte[] photoData, String filePath, int fileSize, PhotoTypes photoType,
-                           PhotoSize photoSize) implements Serializable {
+public final class PhotoPackage implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 0L;
+    private final byte[] photoData;
+    private final String filePath;
+    private final int fileSize;
+    private final PhotoTypes photoType;
+    private final PhotoSize photoSize;
+
     //……//
 
     /**
@@ -29,7 +32,12 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      * @param photoType 文件格式（常量）
      * @param photoSize 原图的尺寸信息
      */
-    public PhotoPackage {
+    public PhotoPackage(byte[] photoData, String filePath, int fileSize, PhotoTypes photoType, PhotoSize photoSize) {
+        this.photoData = photoData;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.photoType = photoType;
+        this.photoSize = photoSize;
     }
 
     /**
@@ -37,7 +45,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      *
      * @return 文件路径
      */
-    @Override
     public String filePath() {
         return filePath;
     }
@@ -57,7 +64,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      *
      * @return 图片数据
      */
-    @Override
     public byte[] photoData() {
         return photoData;
     }
@@ -67,7 +73,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      *
      * @return 储存信息的封装类（包含宽Width和高Height）
      */
-    @Override
     public PhotoSize photoSize() {
         return photoSize;
     }
@@ -77,7 +82,6 @@ public record PhotoPackage(byte[] photoData, String filePath, int fileSize, Phot
      *
      * @return 图片的文件格式（一个常量）
      */
-    @Override
     public PhotoTypes photoType() {
         return photoType;
     }
