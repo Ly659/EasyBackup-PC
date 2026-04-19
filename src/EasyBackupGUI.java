@@ -13,9 +13,14 @@ class UIListLayout {
 
     // UI布局设置
     private RowLayout layout;
-    private final int spacing = 5;      // 列表项目排列的间距（单位：像素）
-    private final int itemWidth = 90;   // 单个项目的宽度
-    private final int itemHeight = 90;  // 单个项目的高度
+    private final int spacing;      // 列表项目排列的间距（单位：像素）
+    private final int itemWidth;   // 单个项目的宽度
+    private final int itemHeight;  // 单个项目的高度
+    {
+        itemHeight = 90;
+        itemWidth = 90;
+        spacing = 5;
+    }
 
     // 滚动组件
     private ScrolledComposite scrollPanel;      // 滚动面板
