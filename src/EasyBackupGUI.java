@@ -157,7 +157,7 @@ public class EasyBackupGUI {
     static void main() {
         // 创建并配置主程序的实例
         EasyBackupGUI mainWindow = new EasyBackupGUI(
-                "EasyBackup - Internal test",
+                "EasyBackup - Internal test only",
                 new int[] {1024, 768});
 
         mainWindow.run();
