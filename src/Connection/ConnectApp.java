@@ -71,7 +71,7 @@ public class ConnectApp {
      */
     private void readConnectionHand() throws IOException, ClassNotFoundException {
         // 读取App端发送的ConectionHand握手封装
-        objInputStream = new NewObjInputStream(inputStream, "Connection", "Connection");
+        objInputStream = new NewObjInputStream(inputStream, "com.ly659.easybackup2.Connection.Packages", "Connection.Packages");
         Object obj = objInputStream.readObject();
 
         // 读取握手信息，写入XML
